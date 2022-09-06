@@ -1,0 +1,505 @@
+#include<fstream>
+#include<iostream>
+#include<stdio.h>
+#include<stdlib.h>
+using namespace std;
+class bookshop
+{
+	public:
+		void controlpanal();
+		void addbook();
+		void showbook();
+		void checkbook();
+		void updatebook();
+		void delbook();
+		void student_bookwithdrawn();
+		void student_detail();
+		void book_return();
+		void updated_bookwithdraw();
+		
+};
+
+//
+   void bookshop::student_bookwithdrawn()
+   {
+   	int sid;	
+ 	string bname, aname, bid;
+   	int nocopy,nocopy1;
+ 	string  bidd;
+ 	
+ 	string sname;
+ 	
+    cout<<"\n\n enter the student id :";
+    cin>>sid;
+   
+    fstream file,file3,file2;
+    
+    file.open("D://book.txt",ios::in);
+   
+   //ios::in
+   
+     file>>bid>>bname>>aname>>nocopy;
+      cout<<"\n\n enter the book id that student want to take :";
+    cin>>bidd;
+     while(!file.eof())
+	 {
+     	 file>>bid>>bname>>aname>>nocopy;
+     	 
+	 if(bidd==bid)
+	 {
+	 	cout<<" \n\n enter the number of book to be taken";
+	 	cin>>nocopy1;
+	 //	if(nocopy1>nocopy)
+	 //	{
+	 		cout<<" \n\n there are not sufficient book \n\n";
+	 		
+	//	 }
+	//	 else{
+		 	nocopy=nocopy-nocopy1;
+		 
+    cout<<"\n enter the student name :";
+    cin>>sname;
+    
+      file2.open("D://student_detail.txt",ios::out);
+    	file2<<"   "<<sid<<"   "<<sname<<"   "<<bidd<<"   "<<nocopy1<<"\n";
+  
+    file2.close();
+	//	 }
+	 }
+	 
+	  file>>bid>>bname>>aname>>nocopy;
+    }
+   file.close();
+   
+    
+    //  book
+     	file.open("D:// book.txt", ios::in);
+     	while(!file.eof())
+     	{
+		 
+     	file>> bid >> bname>>  aname >> nocopy;
+     	if(bid==bidd)
+     	{
+		 
+     	nocopy=nocopy-nocopy1;
+     	file.close();
+     	
+     	file3.open("D:// book1.txt", ios::out);
+     	
+     			file3<<" "<<bid<<" "<<bname<<" "<<aname<<" "<<nocopy<<"\n";
+     				file3.close();
+     		}
+     	}
+ 
+ 	
+		 	 remove("D:// book.txt");
+        rename("D:// book1.txt",
+               "D:// book.txt");
+     	
+    
+   }
+
+void bookshop::student_detail()
+ {
+ 	int sid,nocopy1;
+ 	string bidd,sname;
+ 	fstream file2;
+ 	 file2.open("D://student_detail.txt",ios::in);
+ 	 	if(!file2)
+ 	{
+ 		cout<< "\n\n\t file opening error";
+	 }
+	 else
+	 {
+	 	cout<<"\n\n STUDENT ID\t\t STUDENT NAME \t\t BOOK ID\t\t NO> of BOOKS\n\n";
+	 	file2>>sid>>sname>>bidd>>nocopy1;
+	 	
+	 
+	 while (!file2.eof()){
+	 
+	 cout<<" "<<sid<<"\t\t "<<sname<<"\t\t"<<bidd<<"\t\t"<<nocopy1<<"\n\n";
+	 file2>>sid>>sname>>bidd>>nocopy1;
+      }
+	  }
+	  file2.close();
+	  
+    }
+    
+void bookshop::book_return()
+    {
+    	int sid,sid1;
+    	int nocopy2,nocopy1;
+    		string bid, bidd,sname;
+    			int nocopy;
+ 	string bname, aname;
+    	cout<<" \n\n \t\t\tBOOK return DESK ";
+    	cout<<" enter the student id";
+    	cin>>sid1;
+    	cout<<"\n  enter the book id to be returned ";
+    	cin>>bid;
+    	fstream file, file2,file3;
+ 	    file2.open("D://student_detail.txt",ios::in);
+ 	    file3.open("D://student_detail1.txt",ios::out);
+ 	      file2>>sid>>sname>>bidd>>nocopy1;
+ 	      file2.close();
+ 	      	if(!file2)
+ 	{
+ 		cout<< "\n\n\t file opening error";
+	 }
+	 else
+	 {
+	 if(sid==sid1&&bid==bidd)
+	 while (!file2.eof())
+	 {
+	   cout<<"\n enter the number of books to be returned";
+	   cin>>nocopy2;
+	   
+	   if (nocopy1==nocopy2)
+	   {
+	   	 file2.open("D://student_detail.txt",ios::in);
+	   	file2>>sid>>sname>>bidd>>nocopy1;
+	   	break;
+	   	    if(sid==sid1&&bidd==bid)
+	   	    {
+	   	    	cout<<" returned sucessfuly ";
+			   }
+			   else   
+			   {
+			    file3<<"   "<<sid<<"   "<<sname<<"   "<<bidd<<"   "<<nocopy1<<"\n";
+			  // 	file2>>sid>>sname>>bidd>>nocopy1;
+			   }
+			   break;
+			   file2.close();
+			}
+	   }
+	   else
+	   {
+	   int nocopy1=nocopy1-nocopy2;
+	   file3<<"   "<<sid<<"   "<<sname<<"   "<<bidd<<"   "<<nocopy1<<"\n";
+	   // file2>>sid>>sname>>bidd>>nocopy1;
+	   }
+      }
+	  
+	  file2.close();
+	  file3.close();
+	  	remove("D:// student_detail.txt");
+	rename("D:// student_detail1.txt","D:// book.txt");
+    }
+ 	  
+	    void bookshop::updated_bookwithdraw()
+		{
+				int nocopy;
+ 	string bname, aname;
+				int sid,sid1;
+    	int nocopy2,nocopy1;
+    		string bidd,sname,bid;
+    			cout<<" enter the student id";
+    	      cin>>sid1;
+    	    cout<<" enter the book id of hich you want more copies";
+    	    cin>>bid;
+    	    fstream file,file2,file3;
+    	     file2.open("D://student_detail.txt",ios::in);
+ 	    file3.open("D://student_detail1.txt",ios::out);
+ 	      file2>>sid>>sname>>bidd>>nocopy1;
+ 	      if(sid==sid1&&bid==bidd)
+ 	      {
+ 	      	cout<<"enter the number of copiews you want ";
+ 	      	cin>>nocopy2;
+ 	      	nocopy1=nocopy1+nocopy2;
+ 	      	  file3<<"   "<<sid<<"   "<<sname<<"   "<<bidd<<"   "<<nocopy1<<"\n";
+		   }
+		   file2.close();
+	  file3.close();
+	  	remove("D:// student_detail.txt");
+	rename("D:// student_detail1.txt","D:// book.txt");
+	
+		file.open("D:// book.txt", ios::in);
+     	file>> bid >> bname>>  aname >> nocopy;
+     	nocopy=nocopy+nocopy2;
+     	file.close();
+     	
+     	file.open("D:// book.txt", ios::out);
+     	
+     			file<<" "<<bid<<" "<<bname<<" "<<aname<<" "<<nocopy<<"\n";
+ 	file.close();
+		 
+    }
+    		
+		   
+	
+//
+
+void bookshop::controlpanal()
+{
+	cout<<"\n \t control pannel \n\n";
+	cout<<"1. ADD BOOK\n";
+	cout<<"2. DISPLAY BOOK\n3. CHECK PERTICULAR BOOK"<<endl;
+	cout<<"4. UPDATE BOOK\n5. DELETE BOOK\n6. EXIT";
+	cout<<" \n 7.student_bookwithdrawn \n 8. view students detail \n9. book return ";
+	cout<< "\n 10. if student want to add  more copy of book he/she had already taken  ";
+	
+	
+	
+}
+
+ void bookshop::addbook()
+ {
+ 	fstream file;
+ 	int nocopy;
+ 	string bname, aname, bid;
+ 	cout<<"\n\n \t\t ADD BOOK";
+ 	cout<<"\n BOOK ID :";
+ 	cin>>bid;
+ 	cout<<"\nBOOK NAME :";
+ 	cin>>bname;
+ 	cout<<"\nAUTHORE NAME :";
+ 	cin>>aname;
+ 	cout<<"\nNUMBER OF BOOKS :";
+ 	cin>>nocopy;
+ 
+ 	file.open("D:// book.txt",
+              ios::out | ios::app);
+              
+ 	file<<" "<<bid<<" "<<bname<<" "<<aname<<" "<<nocopy<<"\n";
+ 	file.close();
+ }
+ 
+ 
+ 
+ void bookshop::showbook()
+ {
+ 	fstream file;
+ 	int nocopy;
+ 	string bname,aname,bid;
+ 	cout<<"\n\n\t\t\t ALL BOOKS :\n";
+ 	file.open("D:// book.txt", ios::in);
+ 	if(!file)
+ 	{
+ 		cout<< "\n\n\t file opening error";
+	 }
+	 else
+	 {
+	 	cout<<"\n\n BOOK ID\t\t BOOK NAME \t\t AUTHOR NAME\t\t NO> of BOOKS\n\n";
+	 	file>>bid>>bname>>aname>>nocopy;
+	 	
+	 
+	 while (!file.eof()){
+	 
+	 cout<<" "<<bid<<"\t\t "<<bname<<"\t\t"<<aname<<"\t\t"<<nocopy<<"\n\n";
+	 file>>bid>>bname>>aname>>nocopy;
+      }
+	  }
+	  file.close();
+    }
+void bookshop::checkbook()
+{
+	fstream file;
+	int nocopy,count=0;
+	string bidd,bname,aname,bid;
+	cout<<"\n\n\t\t\t\tCHECK"<<"  PARTICULAR BOOK";
+	file.open("D:// book.txt", ios::in);
+	if (!file)
+	cout<<"\n\n file opening error";
+	else{
+		cout<<"\n \n BOOK ID: ";
+		cin>>bidd;
+		file>>bid>>bname;
+		file>>aname>>nocopy;
+		while(!file.eof())
+		{
+			if(bidd==bid)
+			{
+				cout<<"\n\n\t\t\t\t CHECK PARTICULAR BOOK";
+				cout<<"\n\n BOOK ID : "<<bid;
+				cout<<"\n\n NAME : "<<bname;
+				cout<<"\n\n AUthor : "<<aname;
+				cout<< "\n\n number of copies : "<<nocopy;
+				cout<<"\n"<<endl;
+			count++;
+			break;
+			}
+		file>> bid >> bname>>  aname >> nocopy;
+		
+	}
+	file.close();
+	if(count==0)
+	{
+		cout<<"\n\n BOOK ID NOT FOUND...";
+		
+	}
+	
+}
+}
+
+void bookshop::updatebook()
+{
+	fstream file,file1;
+	int nocopy,noco,count=0;
+	string bname,aname,bna,ana;
+	string bid,bidd;
+	cout<<"\n\n\t\t\t UPDATE BOOK RECORD  ";
+	file1.open("D:// book1.txt",
+               ios::app | ios::out);
+    file.open("D:// book.txt", ios::in);
+    if (!file)
+    {
+    	cout<<" \n\nfile opening error !\n\n";
+    	
+	}
+	else{
+		cout<<"\n\n BOOK ID :";
+		cin>>bid;
+		file>>bidd>>bname;
+		file>>aname>>nocopy;
+		
+		while(!file.eof())
+		{
+			if(bid==bidd)
+			{
+				cout<<"\t\t\t\t UPDATE BOOK RECORD ";
+				cout<<"\n\n NEW BOOK NAME :";
+				cin>>bna;
+				cout<<"\n\n author name :";
+				cin>>ana;
+				cout<<"\n\n NUMBER OF COPIES :";
+				cin>>noco;
+				file1 << " " << bid
+                      << " " << bna
+                      << " " << ana
+                      << " " << nocopy
+                      << "\n\n";
+					  	count ++;
+				
+			}
+			else 
+			file1 << " " << bidd
+                      << " " << bname
+                      << " " << aname
+                      << " " << nocopy
+                      << "\n\n";
+            file >> bidd >> bname;
+            file >> aname >> nocopy;
+		}
+		if(count==0)
+		{
+			cout<<"\n\n BOOK ID  NOT FOUND ..."<<endl;
+			
+		}
+	}file.close();
+	file1.close();
+	remove("D:// book.txt");
+	rename("D:// book1.txt","D:// book.txt");
+	
+}
+
+void bookshop::delbook()
+{
+	fstream file,file1;
+	int nocopy,count=0;
+	string bid,bname,aname,bidd;
+	cout<<"\n\n\t\t\t\t DELETE a BOOK ";
+	file1.open("D:// book1.txt",
+               ios::app | ios::out);
+    file.open("D:// book.txt",
+              ios::in);
+     
+     if (!file)
+     {
+     	cout <<"\n\n file opening error ...";
+     	
+	 }
+	 else
+	 {
+	 	cout<<"\n\n BOOK ID :";
+	 	cin>>bid;
+	 	file>> bidd >> bname >> aname >> nocopy;
+	 	while(!file.eof())
+	 	{
+	 		if(bidd==bid)
+	 		{
+	 			cout<<"\n\n\t\t\t\t  \n\n \t\t\t";
+				 cout<<"\tSUCESSFULLY DELETED \n\n";
+	 			count++;
+	 			
+	 			
+			 }
+			 else
+			 file1 << " " << bidd
+                      << " " << bname
+                      << " " << aname
+                      << " " << nocopy
+                      << "\n\n";
+            file >> bidd >> bname;
+            file >> aname >> nocopy;
+		 }
+		 if (count ==0)
+		 cout<<" \n\n BOOK ID NOT FOUND ..";
+		 file.close();
+		 file1.close();
+		 remove("D:// book.txt");
+        rename("D:// book1.txt",
+               "D:// book.txt");
+	 }
+}
+void bookshoprecord()
+{
+	int choice;
+	char x;
+	bookshop b;
+	
+	while(1)
+	{
+		b.controlpanal();
+		cout<<" \n\nEnter your choice: ";
+		cin>>choice;
+		switch(choice)
+		{
+			case 1 :
+				do{
+					b.addbook();
+					cout<<"\n \n want to add another book(y/n): ";
+					cin>>x;
+				}
+				while(x=='y');
+				break;	
+				
+			case 2:
+						b.showbook();
+						break;
+						
+			case 3:
+				        b.checkbook();
+				        break;
+			case 4:
+			       b.updatebook();
+				   break;
+			case 5: 
+			     b.delbook();
+				 break;
+				 case 7:
+				 	b.student_bookwithdrawn();
+			case 8:
+				b.student_detail();
+				
+				break;
+			case 9 :
+				b.book_return();
+				break;
+				case 10 :
+					b.updated_bookwithdraw();
+					break;
+					
+			case 6:
+			     exit(0);
+				 break;
+			default :
+			     cout << "\n\n\t\t INVALID CHOICE \n\n"	;
+		}
+	}
+}
+    
+    int main()
+    {
+    	bookshoprecord();
+    	return 0;
+	}
